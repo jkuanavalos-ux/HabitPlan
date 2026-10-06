@@ -10,3 +10,4 @@
 - El horario conserva los ajustes propuestos originales. Editar quita la marca de sugerido. Se rechazan bloques superpuestos y bloques que crucen medianoche.
 - Cálculos y validaciones puros en `/src/domain`, con Jest. El servidor opcional usa Node sin instalar dependencias.
 - GitHub Pages queda documentado; no se activa automáticamente porque se pidió actualizar el repositorio. Se puede abrir la app sin publicar nada.
+- Vercel: configuración estática `Other`, sin instalación de dependencias; un script Node genera `dist/` con solo los seis archivos públicos. Se publica esta configuración a GitHub para que el usuario importe el proyecto en su cuenta Vercel. No se crea un despliegue Vercel ni se inventa una URL.

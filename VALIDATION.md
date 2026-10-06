@@ -12,3 +12,10 @@
 - Abrir `index.html` directo no requiere módulos ni fetch; la herramienta de navegador solo permite HTTP/HTTPS y bloqueó la verificación de `file://`. No se eludió ese bloqueo; la vista local HTTP sí se verificó. El guardado con file:// depende del navegador, documentado en README.
 
 La versión móvil anterior está en el historial Git. Publicación GitHub Pages no activada: se actualiza el código del repositorio, listo para hosting estático.
+
+## Preparación para Vercel
+
+- `npm run check` y `npm run build`: pasaron.
+- Se generaron seis archivos públicos en `dist/`; todas las referencias de index.html existen en la salida.
+- `vercel.json` define framework Other, build con Node, instalación omitida y salida dist. No requiere variables de entorno.
+- La configuración se sube al repositorio; el despliegue y la URL final quedan a cargo de importar el proyecto en la cuenta Vercel del usuario.

@@ -4,6 +4,7 @@
   "private": true,
   "description": "Hábitos, objetivos y horario en una web app simple, sin dependencias de ejecución.",
   "scripts": {
+    "build": "node scripts/build.cjs",
     "start": "node scripts/serve.cjs",
     "test": "jest --runInBand",
     "check": "node --check web/app.js && node --check web/seed.js && node --check src/domain/planner.js"
