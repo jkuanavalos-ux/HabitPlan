@@ -70,3 +70,9 @@ test('notas: es opcional, se conserva y se valida', () => {
   state.notes = 123; expect(() => D.validateState(state)).toThrow();
   state.notes = 'x'.repeat(200001); expect(() => D.validateState(state)).toThrow();
 });
+test('el seed trae las notas de cada objetivo', () => {
+  const goals = D.validateState(seed()).goals;
+  expect(goals.every(goal => goal.notes.trim().length > 0)).toBe(true);
+  expect(goals.find(goal => goal.id === 'ganar-30m').notes).toContain('VENDER SISTEMAS Y WEBS A MEDIDA');
+  expect(goals.find(goal => goal.id === 'facultad').notes).toContain('BD2 y IS2');
+});

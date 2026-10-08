@@ -1,4 +1,7 @@
 /* Datos iniciales editables; fechas originales del plan. */
+// Cada vez que cambies las "notes" de los objetivos acá abajo, subí este número (1 → 2 → 3...)
+// para que el cambio se aplique también en tu navegador, que ya tiene datos guardados.
+window.HabitSeedNotesVersion = 1;
 window.HabitSeed = {
   "version": 1,
   "habits": [

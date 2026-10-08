@@ -72,10 +72,8 @@
   }
   let detailGoalId;
   function tidyNotes(text) {
-    const lines = String(text).split('\n').map(line => line.replace(/\s+$/, ''));
-    const indents = lines.slice(1).filter(line => line.trim()).map(line => line.match(/^[ \t]*/)[0].length);
-    const cut = indents.length ? Math.min(...indents) : 0;
-    return lines.map((line, index) => index === 0 ? line : line.slice(Math.min(cut, line.match(/^[ \t]*/)[0].length))).join('\n').trim();
+    // Solo para mostrar: quita la sangría que queda al escribir las notas dentro de seed.js.
+    return String(text).split('\n').map(line => line.trim()).join('\n').replace(/\n{3,}/g, '\n\n').trim();
   }
   function openGoal(id) {
     const goal = state.goals.find(item => item.id === id);
@@ -277,6 +275,24 @@ window.addEventListener('pagehide', saveNotes);
       localStorage.setItem(versionKey, version);
     } catch { /* sin almacenamiento: se usa el horario del seed */ }
   }
+  // Notas de objetivos: copia las "notes" del seed a los objetivos ya guardados (por id).
+  // Progreso, fechas, estado y objetivos propios no se tocan.
+  function migrateGoalNotes() {
+    const versionKey = 'habitplan.goalnotes.version';
+    const version = String(window.HabitSeedNotesVersion || 0);
+    if (loadBlocked || version === '0') return;
+    try {
+      if (localStorage.getItem(versionKey) === version) return;
+      if (localStorage.getItem(STORAGE_KEY) !== null) {
+        const next = copy();
+        const fromSeed = new Map(D.validateState(window.HabitSeed).goals.map(goal => [goal.id, goal.notes]));
+        next.goals.forEach(goal => { if (fromSeed.has(goal.id)) goal.notes = fromSeed.get(goal.id); });
+        if (!save(next)) return;
+      }
+      localStorage.setItem(versionKey, version);
+    } catch { /* sin almacenamiento: se usan las notas del seed */ }
+  }
   migrateSchedule();
+  migrateGoalNotes();
   render();
 })();
