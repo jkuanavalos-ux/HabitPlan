@@ -64,11 +64,29 @@
   function goalCard(goal, compact) {
     const percent = D.goalProgress(goal);
     const overdue = goal.dueDate && goal.dueDate < D.localDate(new Date()) && !goal.done;
-    return `<article class="goal-card${goal.done ? ' completed' : ''}"><div class="goal-top"><span class="category-tag">${escape(categories[goal.category] || goal.category)}</span>${compact ? '' : `<div class="row-actions">${iconAction('edit-goal', goal.id, '✎', `Editar ${goal.title}`)}${iconAction('delete-goal', goal.id, '×', `Eliminar ${goal.title}`, true)}</div>`}</div><h3>${escape(goal.title)}</h3><div class="goal-due${overdue ? ' overdue' : ''}">${goal.done ? '✓ Completado' : goal.dueDate ? `${overdue ? 'Fecha pasada' : 'Hasta el'} · ${shortDate(goal.dueDate)}` : 'Objetivo continuo · sin fecha'}</div><div class="goal-progress-info"><span>${goal.targetAmount > 0 ? `${formatMoney(goal.progress)} / ${formatMoney(goal.targetAmount)} Gs` : 'Progreso manual'}</span><strong>${percent}%</strong></div><div class="progress-track" role="progressbar" aria-label="${escape(`Progreso de ${goal.title}`)}" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"><div style="width:${percent}%"></div></div><button class="goal-update" data-action="progress-goal" data-id="${escape(goal.id)}">${goal.done ? 'Revisar objetivo' : 'Actualizar progreso'} ↗</button></article>`;
+    return `<article class="goal-card${goal.done ? ' completed' : ''}" data-action="view-goal" data-id="${escape(goal.id)}"><div class="goal-top"><span class="category-tag">${escape(categories[goal.category] || goal.category)}</span>${compact ? '' : `<div class="row-actions">${iconAction('edit-goal', goal.id, '✎', `Editar ${goal.title}`)}${iconAction('delete-goal', goal.id, '×', `Eliminar ${goal.title}`, true)}</div>`}</div><h3><button type="button" class="goal-title-button" data-action="view-goal" data-id="${escape(goal.id)}" title="Ver detalle y notas">${escape(goal.title)}</button></h3><div class="goal-due${overdue ? ' overdue' : ''}">${goal.done ? '✓ Completado' : goal.dueDate ? `${overdue ? 'Fecha pasada' : 'Hasta el'} · ${shortDate(goal.dueDate)}` : 'Objetivo continuo · sin fecha'}</div><div class="goal-progress-info"><span>${goal.targetAmount > 0 ? `${formatMoney(goal.progress)} / ${formatMoney(goal.targetAmount)} Gs` : 'Progreso manual'}</span><strong>${percent}%</strong></div><div class="progress-track" role="progressbar" aria-label="${escape(`Progreso de ${goal.title}`)}" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"><div style="width:${percent}%"></div></div><button class="goal-update" data-action="progress-goal" data-id="${escape(goal.id)}">${goal.done ? 'Revisar objetivo' : 'Actualizar progreso'} ↗</button></article>`;
   }
   function renderGoals() {
     $('goal-list').innerHTML = sortedGoals().map(goal => goalCard(goal, false)).join('') || '<div class="empty">¿Qué te gustaría construir?<br>Agregá tu primer objetivo.</div>';
     $('home-goals').innerHTML = sortedGoals().slice(0, 3).map(goal => goalCard(goal, true)).join('') || '<p class="empty">Tu próximo objetivo te espera en la sección Objetivos.</p>';
+  }
+  let detailGoalId;
+  function tidyNotes(text) {
+    const lines = String(text).split('\n').map(line => line.replace(/\s+$/, ''));
+    const indents = lines.slice(1).filter(line => line.trim()).map(line => line.match(/^[ \t]*/)[0].length);
+    const cut = indents.length ? Math.min(...indents) : 0;
+    return lines.map((line, index) => index === 0 ? line : line.slice(Math.min(cut, line.match(/^[ \t]*/)[0].length))).join('\n').trim();
+  }
+  function openGoal(id) {
+    const goal = state.goals.find(item => item.id === id);
+    if (!goal) return;
+    detailGoalId = id;
+    const percent = D.goalProgress(goal);
+    const overdue = goal.dueDate && goal.dueDate < D.localDate(new Date()) && !goal.done;
+    const notes = tidyNotes(goal.notes || '');
+    $('goal-detail-title').textContent = goal.title;
+    $('goal-detail-body').innerHTML = `<div class="detail-meta"><span class="category-tag">${escape(categories[goal.category] || goal.category)}</span><span class="${overdue ? 'overdue' : ''}">${goal.done ? '✓ Completado' : goal.dueDate ? `${overdue ? 'Fecha pasada' : 'Hasta el'} · ${shortDate(goal.dueDate)}` : 'Objetivo continuo · sin fecha'}</span></div><div class="goal-progress-info detail-progress"><span>${goal.targetAmount > 0 ? `${formatMoney(goal.progress)} / ${formatMoney(goal.targetAmount)} Gs` : 'Progreso manual'}</span><strong>${percent}%</strong></div><div class="progress-track" role="progressbar" aria-label="${escape(`Progreso de ${goal.title}`)}" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100"><div style="width:${percent}%"></div></div><h3 class="detail-notes-title">Notas</h3>${notes ? `<div class="goal-notes">${escape(notes)}</div>` : '<p class="empty">Este objetivo todavía no tiene notas. Tocá «Editar objetivo» para escribirlas.</p>'}`;
+    $('goal-detail').showModal();
   }
   function renderNow() {
     const { current, next } = D.currentSchedule(state.schedule, new Date());
@@ -81,17 +99,14 @@
     $('schedule-hours').textContent = `${Math.floor(minutes / 60)} h${minutes % 60 ? ` ${minutes % 60} min` : ''} planificadas`;
     $('schedule-list').innerHTML = D.daySchedule(state.schedule, scheduleDay).map(block => `<article class="schedule-row" style="--block-color:${block.color}"><div class="schedule-time">${block.start} – ${block.end}</div><div class="schedule-info"><h3>${escape(block.title)}</h3>${block.suggested ? '<small>Ajuste sugerido · podés editarlo</small>' : ''}</div><div class="row-actions">${iconAction('edit-block', block.id, '✎', `Editar ${block.title}`)}${iconAction('delete-block', block.id, '×', `Eliminar ${block.title}`, true)}</div></article>`).join('') || '<div class="panel empty">Este día está libre. Agregá un bloque para darle espacio a lo importante.</div>';
   }
- /* function render() { renderHabits(); renderGoals(); renderSchedule(); renderNow(); view(); }
+  function renderNotes() {
+    const box = $('notes-text');
+    if (document.activeElement !== box && box.value !== state.notes) box.value = state.notes;
+  }
+  function render() { renderHabits(); renderGoals(); renderSchedule(); renderNow(); renderNotes(); view(); }
   function input(name, label, value, type = 'text', extra = '') {
     return `<label class="field">${label}<input name="${name}" type="${type}" value="${escape(value)}" ${extra}></label>`;
-  }*/
-// reemplazo el de abajo por el de arriba 
-  function renderNotes() {
-  const box = $('notes-text');
-  if (document.activeElement !== box && box.value !== state.notes) box.value = state.notes;
-}
-
-function render() { renderHabits(); renderGoals(); renderSchedule(); renderNow(); renderNotes(); view(); }
+  }
   function openEditor(type, id) {
     editorContext = { type, id };
     $('form-error').textContent = '';
@@ -157,6 +172,9 @@ function render() { renderHabits(); renderGoals(); renderSchedule(); renderNow()
     if (!button) return;
     const { action, id } = button.dataset;
     if (action === 'schedule-day') { scheduleDay = id; renderSchedule(); return; }
+    if (action === 'view-goal') return openGoal(id);
+    if (action === 'detail-edit') { $('goal-detail').close(); return openEditor('goal', detailGoalId); }
+    if (action === 'detail-progress') { $('goal-detail').close(); return openEditor('progress', detailGoalId); }
     if (action === 'edit-habit') return openEditor('habit', id);
     if (action === 'edit-goal') return openEditor('goal', id);
     if (action === 'progress-goal') return openEditor('progress', id);
@@ -239,5 +257,26 @@ window.addEventListener('pagehide', saveNotes);
     try { state = D.validateState(JSON.parse(event.newValue)); loadBlocked = false; render(); } catch { loadBlocked = true; notify('Otra pestaña cambió los datos a un formato inválido. Descargá un respaldo antes de continuar.'); }
   });
   setInterval(() => { $('selected-date').max = D.localDate(new Date()); renderNow(); }, 60000);
+  $('goal-detail').addEventListener('click', event => {
+    const box = event.currentTarget.getBoundingClientRect();
+    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) event.currentTarget.close();
+  });
+  // Horario nuevo: se aplica una sola vez a los datos ya guardados en este navegador.
+  // Hábitos, checks, objetivos, progreso y notas no se tocan.
+  function migrateSchedule() {
+    const versionKey = 'habitplan.schedule.version';
+    const version = '2';
+    if (loadBlocked) return;
+    try {
+      if (localStorage.getItem(versionKey) === version) return;
+      if (localStorage.getItem(STORAGE_KEY) !== null) {
+        const next = copy();
+        next.schedule = D.validateState(window.HabitSeed).schedule;
+        if (!save(next)) return;
+      }
+      localStorage.setItem(versionKey, version);
+    } catch { /* sin almacenamiento: se usa el horario del seed */ }
+  }
+  migrateSchedule();
   render();
 })();

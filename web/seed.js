@@ -195,7 +195,7 @@ window.HabitSeed = {
         "fri"
       ],
       "start": "08:00",
-      "end": "10:00",
+      "end": "13:00",
       "title": "Desarrollo",
       "color": "#ED7D31",
       "suggested": false
@@ -203,17 +203,14 @@ window.HabitSeed = {
     {
       "id": "schedule-5",
       "days": [
-        "mon",
-        "tue",
-        "wed",
-        "thu",
-        "fri"
+        "sat",
+        "sun"
       ],
-      "start": "10:00",
-      "end": "12:00",
-      "title": "Ventas y prospección",
-      "color": "#C55A11",
-      "suggested": true
+      "start": "09:00",
+      "end": "13:00",
+      "title": "Desarrollo",
+      "color": "#ED7D31",
+      "suggested": false
     },
     {
       "id": "schedule-6",
@@ -222,63 +219,45 @@ window.HabitSeed = {
         "tue",
         "wed",
         "thu",
-        "fri"
+        "fri",
+        "sun"
       ],
-      "start": "12:00",
-      "end": "13:00",
-      "title": "Libre / almuerzo",
-      "color": "#3A3F5C",
-      "suggested": true
+      "start": "13:00",
+      "end": "14:00",
+      "title": "Almuerzo",
+      "color": "#BFBFBF",
+      "suggested": false
     },
     {
       "id": "schedule-7",
       "days": [
-        "sat",
-        "sun"
+        "sat"
       ],
-      "start": "09:00",
-      "end": "11:00",
-      "title": "Desarrollo",
-      "color": "#ED7D31",
+      "start": "13:00",
+      "end": "18:00",
+      "title": "Almuerzo",
+      "color": "#BFBFBF",
       "suggested": false
     },
     {
       "id": "schedule-8",
       "days": [
-        "sat",
-        "sun"
+        "mon",
+        "wed",
+        "fri"
       ],
-      "start": "11:00",
-      "end": "13:00",
-      "title": "Libre",
-      "color": "#3A3F5C",
+      "start": "14:00",
+      "end": "16:00",
+      "title": "Desarrollo",
+      "color": "#ED7D31",
       "suggested": false
     },
     {
       "id": "schedule-9",
       "days": [
         "mon",
-        "tue",
         "wed",
-        "thu",
-        "fri",
-        "sat",
-        "sun"
-      ],
-      "start": "13:00",
-      "end": "16:00",
-      "title": "Estudios facu",
-      "color": "#FFD966",
-      "suggested": false
-    },
-    {
-      "id": "schedule-10",
-      "days": [
-        "mon",
-        "wed",
-        "fri",
-        "sat",
-        "sun"
+        "fri"
       ],
       "start": "16:00",
       "end": "18:00",
@@ -287,19 +266,20 @@ window.HabitSeed = {
       "suggested": false
     },
     {
-      "id": "schedule-11",
+      "id": "schedule-10",
       "days": [
         "tue",
-        "thu"
+        "thu",
+        "sun"
       ],
-      "start": "16:00",
+      "start": "14:00",
       "end": "18:00",
-      "title": "Social / networking (flex)",
-      "color": "#7A5BD6",
-      "suggested": true
+      "title": "Estudios facu",
+      "color": "#FFD966",
+      "suggested": false
     },
     {
-      "id": "schedule-12",
+      "id": "schedule-11",
       "days": [
         "mon",
         "tue",
@@ -310,33 +290,33 @@ window.HabitSeed = {
         "sun"
       ],
       "start": "18:00",
-      "end": "20:00",
+      "end": "21:00",
       "title": "Ejercicios",
       "color": "#212934",
       "suggested": false
     },
     {
-      "id": "schedule-13",
+      "id": "schedule-12",
       "days": [
         "mon",
         "wed",
         "fri"
       ],
-      "start": "20:00",
+      "start": "21:00",
       "end": "23:00",
       "title": "Vocalización y cantar",
       "color": "#2F5597",
       "suggested": false
     },
     {
-      "id": "schedule-14",
+      "id": "schedule-13",
       "days": [
         "tue",
         "thu",
         "sat",
         "sun"
       ],
-      "start": "20:00",
+      "start": "21:00",
       "end": "23:00",
       "title": "Guitarra",
       "color": "#2F5597",

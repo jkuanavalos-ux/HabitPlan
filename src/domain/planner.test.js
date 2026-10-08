@@ -3,11 +3,12 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 function seed() { const context = { window: {} }; vm.runInNewContext(fs.readFileSync('web/seed.js', 'utf8'), context); return JSON.parse(JSON.stringify(context.window.HabitSeed)); }
 
-test('el seed es válido y conserva 9 hábitos, 5 objetivos y 14 bloques', () => {
+test('el seed es válido y conserva 9 hábitos, 5 objetivos y 13 bloques', () => {
   const state = D.validateState(seed());
-  expect([state.habits.length, state.goals.length, state.schedule.length]).toEqual([9, 5, 14]);
+  expect([state.habits.length, state.goals.length, state.schedule.length]).toEqual([9, 5, 13]);
   expect(state.goals.find(goal => goal.id === 'ganar-30m').dueDate).toBe('2027-03-01');
-  expect(state.schedule.filter(block => block.suggested)).toHaveLength(3);
+  expect(state.schedule.filter(block => block.suggested)).toHaveLength(0);
+  expect(state.schedule.some(block => /social|ventas/i.test(block.title))).toBe(false);
 });
 test('fecha local cerca de medianoche y fechas reales', () => {
   expect(D.localDate(new Date(2026, 9, 6, 23, 59))).toBe('2026-10-06');
@@ -30,9 +31,11 @@ test('dinero se calcula sobre cobrado, con límite 100 y resultado manual', () =
 });
 test('bloque actual incluye inicio pero excluye fin, también en domingo', () => {
   const blocks = seed().schedule;
-  expect(D.currentSchedule(blocks, new Date(2026, 9, 6, 10, 0)).current.title).toBe('Ventas y prospección');
-  expect(D.currentSchedule(blocks, new Date(2026, 9, 6, 12, 0)).current.title).toBe('Libre / almuerzo');
-  expect(D.currentSchedule(blocks, new Date(2026, 9, 11, 20, 0)).current.title).toBe('Guitarra');
+  expect(D.currentSchedule(blocks, new Date(2026, 9, 6, 10, 0)).current.title).toBe('Desarrollo');
+  expect(D.currentSchedule(blocks, new Date(2026, 9, 6, 13, 0)).current.title).toBe('Almuerzo');
+  expect(D.currentSchedule(blocks, new Date(2026, 9, 11, 20, 0)).current.title).toBe('Ejercicios');
+  expect(D.currentSchedule(blocks, new Date(2026, 9, 11, 21, 0)).current.title).toBe('Guitarra');
+  expect(D.currentSchedule(blocks, new Date(2026, 9, 10, 15, 0)).current.title).toBe('Almuerzo');
   expect(D.currentSchedule(blocks, new Date(2026, 9, 6, 23, 0)).current).toBeUndefined();
   expect(D.plannedMinutes(blocks, 'mon')).toBe(17 * 60);
 });
@@ -59,4 +62,11 @@ test('un respaldo válido se clona sin mutar el origen', () => {
   const copy = D.validateState(original);
   copy.habits[0].name = 'Editado';
   expect(original.habits[0].name).toBe('Meditar');
+});
+test('notas: es opcional, se conserva y se valida', () => {
+  expect(D.validateState(seed()).notes).toBe('');
+  const state = seed(); state.notes = 'Hola\nmundo';
+  expect(D.validateState(state).notes).toBe('Hola\nmundo');
+  state.notes = 123; expect(() => D.validateState(state)).toThrow();
+  state.notes = 'x'.repeat(200001); expect(() => D.validateState(state)).toThrow();
 });
