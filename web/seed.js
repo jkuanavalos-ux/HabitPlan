@@ -66,7 +66,26 @@ window.HabitSeed = {
       "targetAmount": 30000000,
       "progress": 0,
       "done": false,
-      "notes": "Vender sistemas y webs a medida a organizaciones y personas. Referencia: 3 landings ≈2.000.000 + 4 webs/catálogos con WhatsApp ≈3.500.000 + 1 sistema ≈10.000.000 (8 ventas). Precios orientativos, a validar con el mercado local. Mantenimiento mensual ≈150.000–300.000 Gs como extra. Cobro sugerido 50 % adelanto / 50 % entrega. Hasta el 20/nov: ~2 h/día a ventas+aprendizaje; desde el 21/nov: 3 h/día y más tiempo de entrega. Enero suele ser lento: adelantar prospección en diciembre. Primera venta ideal: 8/nov/2026."
+      "notes": `VENDER SISTEMAS Y WEBS A MEDIDA a organizaciones y personas. 
+      landings, webs/catálogos, sistema + Mantenimiento mensual - Primera venta ideal: 8/nov/2026.
+      
+      Estudiar ruta de desarrollador:
+      - Estudiar Ing de software bases para crear sistemas
+      - HTML + CSS + JavaScript “puro” y luego React.
+      - Frameworks/librerías: React, Vue, Angular, Svelte 
+      - TypeScript, Tailwind CSS, Next.js (React plus)
+      - JavaScript/Node.js (Express, NestJS)
+      - Python (Django, FastAPI, Flask): excelente para empezar y para IA/datos
+      - Java (Spring Boot): muy usado en bancos y empresas grandes
+      - Otros: PHP (Laravel), C# (.NET), Go
+      -  Relacionales (SQL): PostgreSQL, MySQL, SQLite
+      - No relacionales: MongoDB, Firebase/Firestore
+      - Git hub / Apis Rest
+      - App movil> React native + expo 
+      - Flutter (dart)
+      - Nativo android (kotlin o java)
+      - Nativo ios (swift)
+`
     },
     {
       "id": "novia",
@@ -76,7 +95,17 @@ window.HabitSeed = {
       "targetAmount": 0,
       "progress": 0,
       "done": false,
-      "notes": "Se mide por acciones controlables; el resultado se marca manualmente. Conversar para conocer gente de verdad, respetar siempre un «no», no insistir ni presionar. Un rechazo cuenta como práctica cumplida. Cierre diario: ¿Qué hice hoy? ¿Qué aprendí? Domingo 25/oct: revisión del objetivo y planificación de las próximas semanas."
+      "notes": `Conversar para conocer gente de verdad
+      
+      PRINCIPAL: Leer mis páginas del libro (terminarlo el 20/oct)
+
+      • Semana 1 (6 al 11/oct): saludar, preguntar algo a desconocidos y hacer charlas cortas.
+      • Semana 2 (12 al 18/oct): charlas más largas, cumplidos sinceros y una actividad social.
+      • Semana 3 (19 al 25/oct): invitar a alguien a un plan, pedir contacto, cita.
+
+    Ver un video de sociabilidad, hamza, 3 veces a la semana (lunes, miércoles y viernes)
+    
+    `
     },
     {
       "id": "idiomas",
@@ -86,7 +115,7 @@ window.HabitSeed = {
       "targetAmount": 0,
       "progress": 0,
       "done": false,
-      "notes": "La etiqueta usa el idioma elegido en el onboarding. Una de las 3 sesiones con práctica de hablar."
+      "notes": `PRACTICAR 3 VECES POR SEMANAS O MAS`
     },
     {
       "id": "musica",
@@ -96,7 +125,12 @@ window.HabitSeed = {
       "targetAmount": 0,
       "progress": 0,
       "done": false,
-      "notes": "Canción bien aprendida = letra, melodía y una grabación. Del 3 al 6/nov: repaso. Marcar un solo de la lista suma al contador semanal."
+      "notes": `Practicar canto y vocalización (lunes, miércoles y viernes)
+        Practicar guitarra (martes, jueves, sábado y domingo)
+        Aprender 3 a 5 canciones por semana (20 canciones hasta el 6/nov)
+        Aprender 2 a x solos por semana
+        Avanzar con el curso de guitarra
+        Grabarme cantando una vez por semana`
     },
     {
       "id": "facultad",
@@ -106,7 +140,9 @@ window.HabitSeed = {
       "targetAmount": 0,
       "progress": 0,
       "done": false,
-      "notes": "Bloques de 50 min estudio + 10 min descanso; priorizar recordar activamente (preguntas y práctica) sobre releer."
+      "notes": `Estudiar todos los dias BD2 y IS2 y pasar antes del 20/nov.
+      • Semana 1 y 2: 2h al dia
+      • Semana 3 a 6: 3h a 4h al dia (e ir inteficando)`
     }
   ],
   "schedule": [

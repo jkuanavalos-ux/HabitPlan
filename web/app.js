@@ -39,10 +39,10 @@
   }
   const copy = () => JSON.parse(JSON.stringify(state));
   function view() {
-    const current = ['hoy', 'objetivos', 'horario'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'hoy';
-    for (const name of ['hoy', 'objetivos', 'horario']) $('view-' + name).hidden = name !== current;
+    const current = ['hoy', 'objetivos', 'horario', 'notas'].includes(location.hash.slice(1)) ? location.hash.slice(1) : 'hoy';
+    for (const name of ['hoy', 'objetivos', 'horario', 'notas']) $('view-' + name).hidden = name !== current;
     document.querySelectorAll('[data-view]').forEach(link => { const active = link.dataset.view === current; link.classList.toggle('active', active); if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current'); });
-    $('breadcrumb').textContent = { hoy: 'Mi día', objetivos: 'Mis objetivos', horario: 'Mi semana' }[current];
+    $('breadcrumb').textContent = { hoy: 'Mi día', objetivos: 'Mis objetivos', horario: 'Mi semana',  notas: 'Mis notas' }[current];
   }
   function iconAction(action, id, text, label, danger = false) {
     return `<button class="icon-button${danger ? ' danger' : ''}" data-action="${action}" data-id="${escape(id)}" aria-label="${escape(label)}" title="${escape(label)}">${text}</button>`;
@@ -81,10 +81,17 @@
     $('schedule-hours').textContent = `${Math.floor(minutes / 60)} h${minutes % 60 ? ` ${minutes % 60} min` : ''} planificadas`;
     $('schedule-list').innerHTML = D.daySchedule(state.schedule, scheduleDay).map(block => `<article class="schedule-row" style="--block-color:${block.color}"><div class="schedule-time">${block.start} – ${block.end}</div><div class="schedule-info"><h3>${escape(block.title)}</h3>${block.suggested ? '<small>Ajuste sugerido · podés editarlo</small>' : ''}</div><div class="row-actions">${iconAction('edit-block', block.id, '✎', `Editar ${block.title}`)}${iconAction('delete-block', block.id, '×', `Eliminar ${block.title}`, true)}</div></article>`).join('') || '<div class="panel empty">Este día está libre. Agregá un bloque para darle espacio a lo importante.</div>';
   }
-  function render() { renderHabits(); renderGoals(); renderSchedule(); renderNow(); view(); }
+ /* function render() { renderHabits(); renderGoals(); renderSchedule(); renderNow(); view(); }
   function input(name, label, value, type = 'text', extra = '') {
     return `<label class="field">${label}<input name="${name}" type="${type}" value="${escape(value)}" ${extra}></label>`;
-  }
+  }*/
+// reemplazo el de abajo por el de arriba 
+  function renderNotes() {
+  const box = $('notes-text');
+  if (document.activeElement !== box && box.value !== state.notes) box.value = state.notes;
+}
+
+function render() { renderHabits(); renderGoals(); renderSchedule(); renderNow(); renderNotes(); view(); }
   function openEditor(type, id) {
     editorContext = { type, id };
     $('form-error').textContent = '';
@@ -177,6 +184,28 @@
     selectedDate = event.target.value;
     renderHabits();
   });
+
+  
+  // Agrego esto
+  let notesTimer;
+function saveNotes() {
+  clearTimeout(notesTimer);
+  const text = $('notes-text').value;
+  if (text === state.notes) return;
+  const next = copy();
+  next.notes = text;
+  $('notes-status').textContent = save(next) ? 'Guardado ✓' : 'No se pudo guardar';
+}
+$('notes-text').addEventListener('input', () => {
+  $('notes-status').textContent = 'Escribiendo…';
+  clearTimeout(notesTimer);
+  notesTimer = setTimeout(saveNotes, 500);
+});
+$('notes-text').addEventListener('blur', saveNotes);
+window.addEventListener('pagehide', saveNotes);
+  //TERMINA esto
+
+
   $('add-habit').addEventListener('click', () => openEditor('habit'));
   $('add-goal').addEventListener('click', () => openEditor('goal'));
   $('add-block').addEventListener('click', () => openEditor('block'));

@@ -21,6 +21,7 @@
         <a href="#hoy" data-view="hoy"><span aria-hidden="true">◉</span> Hoy</a>
         <a href="#objetivos" data-view="objetivos"><span aria-hidden="true">◎</span> Objetivos</a>
         <a href="#horario" data-view="horario"><span aria-hidden="true">▦</span> Horario</a>
+        <a href="#notas" data-view="notas"><span aria-hidden="true">✎</span> Notas</a>
       </nav>
       <div class="sidebar-bottom"><div class="small-note"><span class="status-dot"></span> Tu plan, en este navegador</div><button class="quiet" id="backup-button">↗ Respaldo de datos</button></div>
     </aside>
@@ -42,6 +43,10 @@
         </section>
         <section id="view-objetivos" class="view" hidden><div class="page-heading"><div><div class="eyebrow">LO QUE QUERÉS CONSTRUIR</div><h1>Tus objetivos<span class="accent">.</span></h1><p>Metas claras. Progreso que actualizás a tu ritmo.</p></div><button class="button" id="add-goal">+ Nuevo objetivo</button></div><div id="goal-list" class="goal-grid"></div><p class="footnote">El progreso se registra manualmente. En dinero, anotá el total cobrado; en los demás objetivos, tu porcentaje de avance.</p></section>
         <section id="view-horario" class="view" hidden><div class="page-heading"><div><div class="eyebrow">UN TIEMPO PARA CADA COSA</div><h1>Tu horario<span class="accent">.</span></h1><p>Una guía flexible para organizar tu semana.</p></div><button class="button" id="add-block">+ Nuevo bloque</button></div><div class="day-tabs" id="day-tabs" role="group" aria-label="Día del horario"></div><div class="schedule-top"><h2 id="schedule-day"></h2><span id="schedule-hours" class="muted"></span></div><div id="schedule-list" class="schedule-list"></div></section>
+        <section id="view-notas" class="view" hidden>
+  <div class="page-heading"><div><div class="eyebrow">TU HOJA LIBRE</div><h1>Tus notas<span class="accent">.</span></h1><p>Una hoja en blanco para escribir lo que quieras. Se guarda sola.</p></div><span id="notes-status" class="muted" role="status"></span></div>
+  <textarea id="notes-text" class="notes-sheet" aria-label="Hoja de notas" placeholder="Empezá a escribir acá…" maxlength="200000"></textarea>
+</section>
         <footer>HabitPlan <span>·</span> Un paso cada día.</footer>
       </div>
     </main>

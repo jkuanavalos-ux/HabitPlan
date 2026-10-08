@@ -56,12 +56,14 @@
       try { if (toMinutes(block.end) <= toMinutes(block.start)) fail(); } catch { fail(); }
     }
     if (input.schedule.some(block => hasOverlap(block, input.schedule))) fail();
+    const notes = input.notes === undefined ? '' : input.notes;
+    if (typeof notes !== 'string' || notes.length > 200000) fail();
     if (!input.logs || typeof input.logs !== 'object' || Array.isArray(input.logs)) fail();
     for (const [date, log] of Object.entries(input.logs)) {
       if (!validDate(date) || !log || typeof log !== 'object' || Array.isArray(log)) fail();
       if (Object.entries(log).some(([habitId, done]) => !id(habitId) || typeof done !== 'boolean')) fail();
     }
-    return JSON.parse(JSON.stringify({ version: 1, habits: input.habits, goals: input.goals, schedule: input.schedule, logs: input.logs }));
+    return JSON.parse(JSON.stringify({ version: 1, habits: input.habits, goals: input.goals, schedule: input.schedule, logs: input.logs, notes }));
   }
   const api = { DAYS, localDate, validDate, dayCode, toMinutes, dailyProgress, goalProgress, daySchedule, plannedMinutes, currentSchedule, hasOverlap, validateState };
   if (typeof module === 'object' && module.exports) module.exports = api;
